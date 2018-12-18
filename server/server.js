@@ -11,6 +11,15 @@ let server = http.createServer(app);
 let io = socketIO(server);
 
 io.on('connection', (socket) => {
+    console.log('New user connected.');
+
+    // User socket.emit() to create and listen to a custom event
+    socket.on('createMessage', (messageData) => {
+        socket.emit('newMessage', {
+            ...messageData,
+        });
+    });
+
     socket.on('disconnect', () => {
         console.log('User was disconnected.');
     });
