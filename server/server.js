@@ -10,12 +10,15 @@ let app = express();
 let server = http.createServer(app);
 let io = socketIO(server);
 
+app.use(express.static(publicPath));
+app.use(bodyParser.json());
+
 io.on('connection', (socket) => {
     console.log('New user connected.');
 
     // User socket.emit() to create and listen to a custom event
     socket.on('createMessage', (messageData) => {
-        socket.emit('newMessage', {
+        io.emit('newMessage', {
             ...messageData,
         });
     });
@@ -24,9 +27,6 @@ io.on('connection', (socket) => {
         console.log('User was disconnected.');
     });
 });
-
-app.use(express.static(publicPath));
-app.use(bodyParser.json());
 
 
 
