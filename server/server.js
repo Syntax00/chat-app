@@ -18,8 +18,16 @@ io.on('connection', (socket) => {
 
     // User socket.emit() to create and listen to a custom event
     socket.on('createMessage', (messageData) => {
-        io.emit('newMessage', {
-            ...messageData,
+        // Emit the newMessage to every connection
+
+        // io.emit('newMessage', {
+        //     ...messageData,
+        // });
+        
+        
+        // Emit the newMessage to every connection except the current one 
+        socket.broadcast.emit('newMessage', {
+            ...messageData
         });
     });
 
