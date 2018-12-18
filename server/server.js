@@ -16,6 +16,13 @@ app.use(bodyParser.json());
 io.on('connection', (socket) => {
     console.log('New user connected.');
 
+    socket.on('userJoined', (userData) => {
+        socket.emit('joined');
+        socket.broadcast.emit('broadcastJoined', {
+            ...userData,
+        })
+    });
+
     // User socket.emit() to create and listen to a custom event
     socket.on('createMessage', (messageData) => {
         // Emit the newMessage to every connection
